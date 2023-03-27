@@ -8,27 +8,51 @@ export default function Home() {
 
   async function onSubmit(event) {
     event.preventDefault();
-    try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ animal: animalInput }),
-      });
+    // try {
+    //   const response = await fetch("/api/generate", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ animal: animalInput }),
+    //   });
 
-      const data = await response.json();
-      if (response.status !== 200) {
-        throw data.error || new Error(`Request failed with status ${response.status}`);
-      }
+    //   const data = await response.json();
+    //   if (response.status !== 200) {
+    //     throw data.error || new Error(`Request failed with status ${response.status}`);
+    //   }
 
-      setResult(data.result);
-      setAnimalInput("");
-    } catch(error) {
-      // Consider implementing your own error handling logic here
-      console.error(error);
-      alert(error.message);
-    }
+    //   setResult(data.result);
+    //   setAnimalInput("");
+    // } catch(error) {
+    //   // Consider implementing your own error handling logic here
+    //   console.error(error);
+    //   alert(error.message);
+    // }
+
+
+    const apiKey = "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";
+    const prompt = "Once upon a time";
+    const url = "https://api.openai.com/v1/chat/completions";
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        // prompt: prompt,
+        max_tokens: 10,
+        model: "gpt-3.5-turbo",
+        messages: [{ "role": "user", "content": "Suggest one name for a white horse" }],
+      })
+    })
+      .then(response => response.json())
+      // .then(data => console.log(data))
+      .then(data => setResult(data.choices[0].message.content))
+      .catch(error => console.error(error));
+
   }
 
   return (
