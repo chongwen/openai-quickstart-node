@@ -31,8 +31,8 @@ export default function Home() {
     // }
 
 
-    const apiKey = "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";
-    const prompt = "Once upon a time";
+    const apiKey = "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";
+    // const prompt = "Once upon a time";
     const url = "https://api.openai.com/v1/chat/completions";
 
     fetch(url, {
@@ -43,9 +43,9 @@ export default function Home() {
       },
       body: JSON.stringify({
         // prompt: prompt,
-        max_tokens: 10,
+        max_tokens: 120,
         model: "gpt-3.5-turbo",
-        messages: [{ "role": "user", "content": "Suggest one name for a white horse" }],
+        messages: [{ "role": "user", "content": animalInput }],
       })
     })
       .then(response => response.json())
@@ -58,22 +58,22 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>OpenAI Quickstart</title>
+        <title>OpenAI Demo</title>
         <link rel="icon" href="/dog.png" />
       </Head>
 
       <main className={styles.main}>
         <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
+        <h3>网页chat</h3>
         <form onSubmit={onSubmit}>
           <input
             type="text"
             name="animal"
-            placeholder="Enter an animal"
+            placeholder="Enter prompt"
             value={animalInput}
             onChange={(e) => setAnimalInput(e.target.value)}
           />
-          <input type="submit" value="Generate names" />
+          <input type="submit" value="Generate" />
         </form>
         <div className={styles.result}>{result}</div>
       </main>
